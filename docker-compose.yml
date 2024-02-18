@@ -1,0 +1,25 @@
+
+version: '3.3'
+
+services:
+    database:
+        image: postgres:10.17
+        restart: always
+        container_name: 'back_end_test_table'
+        environment:
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_DB: 'back_end_test_table'
+        volumes:
+            - pg-data:/var/lib/postgresql/data
+        ports:
+            - '5432:5432'
+    sqs:
+        image: softwaremill/elasticmq-native:latest
+        ports:
+            - "9324:9324"
+            - "9325:9325"
+        volumes:
+            - ./tools/elasticmq.conf:/opt/elasticmq.conf
+volumes:
+    pg-data:

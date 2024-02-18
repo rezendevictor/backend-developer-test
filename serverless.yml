@@ -1,0 +1,32 @@
+frameworkVersion: '3'
+
+service: backend-dev-test
+
+plugins:
+  - serverless-offline
+  - serverless-express
+  - serverless-webpack
+
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs20.x
+
+functions:
+  handler:
+    handler: src/index.handler
+    name: backend-dev-test-local
+    events:
+        - httpApi:
+            method: '*'
+            path: /
+        - httpApi:
+            method: '*'
+            path: /{proxy+}
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js' # Name of webpack configuration file
+    includeModules: false # Node modules configuration for packaging
+    packager: 'npm' # Packager that will be used to package your external modules
+    excludeFiles: src/**/*.test.js # Provide a glob for files to ignore

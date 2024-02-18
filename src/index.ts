@@ -1,16 +1,13 @@
-import express, {Application, Request, Response} from 'express';
-import dotenv from 'dotenv';
+import * as Sentry from '@sentry/serverless';
+import serverless from 'serverless-http';
+import app from './app';
 
-//For env File
-dotenv.config();
 
-const app: Application = express();
-const port = process.env.PORT || 8000;
+const sentrylessHandler = async (
+    event: object,
+    context: object,
+): Promise<object> => {
+    return serverless(app)(event, context);
+};
+export const handler = Sentry.AWSLambda.wrapHandler(sentrylessHandler);
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Welcome to Express & TypeScript Server');
-});
-
-app.listen(port, () => {
-    console.log(`Server is Fire at http://localhost:${port}`);
-});

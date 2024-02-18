@@ -1,0 +1,11 @@
+node_modules
+.serverless
+.dist
+.webpack
+coverage
+.scannerwork
+.idea
+package-lock.json
+.DS_Store
+.vscode
+!.vscode/launch.json
