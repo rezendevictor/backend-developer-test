@@ -1,15 +1,15 @@
-import {pool} from '../../core/database/pool.database';
-import {QueryResult} from 'pg';
+import {companyRepository, CompanyRepository} from '../repository/company.repository';
 
 export class CompanyService{
+    constructor(
+        private readonly companyRepository: CompanyRepository,
+    ) {}
     public async getCompanies(): Promise<any> {
-        const result : QueryResult = await pool.query('SELECT * FROM companies');
-        return result.rows;
+        return this.companyRepository.getCompanies();
     }
 
     public async getCompanyById(id:string): Promise<any>{
-        const result : QueryResult = await pool.query('SELECT * FROM companies WHERE id = $1', [id]);
-        return result.rows[0];
+        return this.companyRepository.getCompanyById(id);
     }
 }
-export const companyService = new CompanyService()
+export const companyService = new CompanyService(companyRepository)
