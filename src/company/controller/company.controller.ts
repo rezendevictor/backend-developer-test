@@ -10,15 +10,16 @@ import {
 export class CompanyController {
     constructor(
         private readonly companyService: CompanyService,
-    ) {}
+    ) {
+    }
 
-    public async getCompanies(res : Response<CompanyListResponseDTO>) : Promise<void>{
+    public async getCompanies(res: Response<CompanyListResponseDTO>): Promise<void> {
         const companies = await this.companyService.getCompanies();
         res.json(companyDtoListToCompanyListResponseDto(companies));
         res.status(200);
     }
 
-    public async getCompanyById(id:string, res : Response<CompanyResponseDTO>): Promise<void>{
+    public async getCompanyById(id: string, res: Response<CompanyResponseDTO>): Promise<void> {
         const company = await this.companyService.getCompanyById(id);
 
         res.json(companyDtoToCompanyResponseDto(company));

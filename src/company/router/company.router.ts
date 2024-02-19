@@ -40,5 +40,5 @@ companyRouter.get(
     },
 );
 
-export { companyRouter };
+export {companyRouter};
 

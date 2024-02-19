@@ -4,9 +4,9 @@ export interface JobDTO {
     id: string;
     company_id: string;
     title: string;
-    description : string;
+    description: string;
     location: string;
-    notes : string;
-    status : JobStatus;
+    notes: string;
+    status: JobStatus;
 
 }
