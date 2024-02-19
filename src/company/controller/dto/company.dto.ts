@@ -1,9 +1,9 @@
 export interface CompanyDTO {
     id: string;
-    company_id: string;
-    title: string;
-    description : string;
-    location: string;
-    notes : string;
+    name: string;
+
+    created_at: string;
+
+    updated_at : string;
 
 }
