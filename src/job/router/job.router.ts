@@ -1,17 +1,10 @@
-/*
-    POST /job: Create a job posting draft.
-    PUT /job/:job_id/publish: Publish a job posting draft.
-    PUT /job/:job_id: Edit a job posting draft (title, location, description).
-    DELETE /job/:job_id: Delete a job posting draft.
-    PUT /job/:job_id/archive: Archive an active job posting.
- */
-
 import express, {NextFunction, Response, Router} from 'express';
 import {ValidatedRequest} from 'express-joi-validation';
 import {jobController} from '../controller/job.controller';
-import {createNewJobSchema, postJobSchema} from '../../company/schema/post-new-job.schema';
+import {createNewJobSchema, postJobSchema} from '../schema/post-new-job.schema';
 import {validator} from '../../core/express-validation';
-import {putPublishDraftJoiSchema, putPublishDraftSchema} from '../../company/schema/put-publish-draft.schema';
+import {jobByIdParamJoiSchema, jobByIdParamSchema} from '../schema/job-by-id-param.schema';
+import {editJobJoiSchema, editJobSchema} from '../schema/put-edit-job.schema';
 
 const jobsRouter: Router = express.Router();
 
@@ -34,9 +27,9 @@ jobsRouter.post(
 
 jobsRouter.put(
     '/:job_id/publish',
-    validator.params(putPublishDraftJoiSchema),
+    validator.params(jobByIdParamJoiSchema),
     (
-        req: ValidatedRequest<putPublishDraftSchema>,
+        req: ValidatedRequest<jobByIdParamSchema>,
         res: Response,
         next: NextFunction,
     ) => {
@@ -48,38 +41,56 @@ jobsRouter.put(
     },
 );
 /*
-jobsRouter.put(
-    (
-        req: ValidatedRequest<any>,
-        res: Response<CompanyListResponseDTO>,
-        next: NextFunction,
-    ) => {
-        (async (): Promise<void> => {
-            await companyController
-                .getCompanies(res)
-                .catch(next);
-        })().catch(next);
-
-    },
-);
-
-jobsRouter.put(
-    '/:job_id/',
-    (
-        req: ValidatedRequest<any>,
-        res: Response<CompanyListResponseDTO>,
-        next: NextFunction,
-    ) => {
-        (async (): Promise<void> => {
-            await companyController
-                .getCompanies(res)
-                .catch(next);
-        })().catch(next);
-
-    },
-);
-
+    PUT /job/:job_id: Edit a job posting draft (title, location, description).
  */
+jobsRouter.put(
+    '/:job_id',
+    validator.params(jobByIdParamJoiSchema),
+    validator.body(editJobJoiSchema),
+    (
+        req: ValidatedRequest<editJobSchema>,
+        res: Response,
+        next: NextFunction,
+    ) => {
+        (async (): Promise<void> => {
+            await jobController
+                .putEditJob(req.params.job_id, req.body, res)
+        })().catch(next);
+
+    },
+);
+
+jobsRouter.put(
+    '/:job_id/archive',
+    validator.params(jobByIdParamJoiSchema),
+    (
+        req: ValidatedRequest<jobByIdParamSchema>,
+        res: Response,
+        next: NextFunction,
+    ) => {
+        (async (): Promise<void> => {
+            await jobController
+                .putArchiveJobPosting(req.params.job_id, res)
+        })().catch(next);
+
+    },
+);
+
+//TODO: Delete is timing out when it works, check later
+jobsRouter.delete(
+    '/:job_id',
+    validator.params(jobByIdParamJoiSchema),
+    (
+        req: ValidatedRequest<jobByIdParamSchema>,
+        res: Response<void>,
+        next: NextFunction,
+    ) => {
+        (async (): Promise<void> => {
+            await jobController.deleteJobDraft(req.params.job_id,res)
+                .catch(next)
+        })().catch(next);
+    },
+);
 
 export {jobsRouter};
 
