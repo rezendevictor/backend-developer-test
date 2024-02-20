@@ -1,6 +1,5 @@
 export interface JobEditDTO {
-    title: string;
-    description: string;
-    location: string;
-
+  title: string;
+  description: string;
+  location: string;
 }
