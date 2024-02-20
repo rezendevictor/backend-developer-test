@@ -5,6 +5,7 @@ import {createNewJobSchema, postJobSchema} from '../schema/post-new-job.schema';
 import {validator} from '../../core/express-validation';
 import {jobByIdParamJoiSchema, jobByIdParamSchema} from '../schema/job-by-id-param.schema';
 import {editJobJoiSchema, editJobSchema} from '../schema/put-edit-job.schema';
+import {jobsErrorHandler} from '../error/job-error.handler';
 
 const jobsRouter: Router = express.Router();
 
@@ -36,6 +37,8 @@ jobsRouter.put(
         (async (): Promise<void> => {
             await jobController
                 .putPublishDraftJobById(req.params.job_id, res)
+                .catch(next);
+
         })().catch(next);
 
     },
@@ -55,6 +58,8 @@ jobsRouter.put(
         (async (): Promise<void> => {
             await jobController
                 .putEditJob(req.params.job_id, req.body, res)
+                .catch(next);
+
         })().catch(next);
 
     },
@@ -71,6 +76,8 @@ jobsRouter.put(
         (async (): Promise<void> => {
             await jobController
                 .putArchiveJobPosting(req.params.job_id, res)
+                .catch(next);
+
         })().catch(next);
 
     },
@@ -91,6 +98,8 @@ jobsRouter.delete(
         })().catch(next);
     },
 );
+
+jobsRouter.use(jobsErrorHandler)
 
 export {jobsRouter};
 
