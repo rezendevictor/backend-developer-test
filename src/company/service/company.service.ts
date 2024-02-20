@@ -1,5 +1,6 @@
 import {companyRepository, CompanyRepository} from '../repository/company.repository';
 import {CompanyNotFoundError} from '../error/company-not-found.error';
+import {CompanyDTO} from '../controller/dto/company.dto';
 
 export class CompanyService {
     constructor(
@@ -11,11 +12,12 @@ export class CompanyService {
         return this.companyRepository.getCompanies();
     }
 
-    public async getCompanyById(id: string): Promise<any> {
-        const company = this.companyRepository.getCompanyById(id);
+    public async getCompanyById(id: string): Promise<CompanyDTO> {
+        const company = await this.companyRepository.getCompanyById(id);
         if(!company){
             throw new CompanyNotFoundError("Company not Found");
         }
+        return company;
     }
 }
 

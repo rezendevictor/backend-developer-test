@@ -21,7 +21,6 @@ export class CompanyController {
 
     public async getCompanyById(id: string, res: Response<CompanyResponseDTO>): Promise<void> {
         const company = await this.companyService.getCompanyById(id);
-
         res.json(companyDtoToCompanyResponseDto(company));
         res.status(200);
     }
