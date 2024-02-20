@@ -6,6 +6,7 @@ import { pool } from "../../core/database/pool.database";
 import { JobStatus } from "../../job/enum/jobStatus.enum";
 import * as fs from "fs";
 import { ValidatedRequest } from "express-joi-validation";
+import { s3BucketService } from "./s3bucket.service";
 
 const s3 = new S3Client({
   region: "eu-north-1",
@@ -40,6 +41,15 @@ bucketRouter.post(
   function (req, res, next) {
     // @ts-ignore
     res.send("Successfully uploaded " + req.files.length + " files!");
+  },
+);
+
+bucketRouter.get(
+  "/feed",
+  (req: ValidatedRequest<any>, res: Response<void>, next: NextFunction) => {
+    (async (): Promise<void> => {
+      await s3BucketService.getFeed(res);
+    })().catch(next);
   },
 );
 

@@ -4,9 +4,10 @@ import { JobDTO } from "../controller/dto/job.dto";
 import { jobRepository } from "../repository/job.repository";
 import { jobService } from "./job.service";
 import { JobEditDTO } from "../controller/dto/job-edit.dto";
+import { JobEntity } from "../entity/job.entity";
 
 describe("jobRepository", () => {
-  const defaultJobDto: JobDTO = {
+  const defaultJobDto: JobEntity = {
     id: randomUUID(),
     status: JobStatus.DRAFT,
     company_id: "fc716304-f34c-4115-8bc2-e03a201086f0",
@@ -14,6 +15,8 @@ describe("jobRepository", () => {
     description: "Developing web applications",
     location: "San Francisco, CA",
     notes: "Interview scheduled for next week",
+    created_at: "",
+    updated_at: "",
   };
 
   it("Should return one draft Job", async () => {
@@ -37,7 +40,7 @@ describe("jobRepository", () => {
   });
 
   it("Should return one Job published", async () => {
-    const publishedJob = defaultJobDto;
+    const publishedJob: JobEntity = defaultJobDto as JobEntity;
     publishedJob.status = JobStatus.PUBLISHED;
     jest.spyOn(jobRepository, "updateJobStatusById").mockImplementation(() => {
       return Promise.resolve(publishedJob);
@@ -51,7 +54,9 @@ describe("jobRepository", () => {
   });
 
   it("Should return one Job archived", async () => {
-    const archivedJob = defaultJobDto;
+    const archivedJob: JobEntity = {
+      ...defaultJobDto,
+    };
     archivedJob.status = JobStatus.ARCHIVED;
     jest.spyOn(jobRepository, "putArchiveJobPosting").mockImplementation(() => {
       return Promise.resolve(archivedJob);
@@ -70,7 +75,7 @@ describe("jobRepository", () => {
       description: "Developing web applications Edited",
       location: "San Francisco, CA",
     };
-    const jobEditedDto: JobDTO = {
+    const jobEditedDto: JobEntity = {
       ...defaultJobDto,
       ...editedJob,
     };

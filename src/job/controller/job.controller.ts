@@ -2,7 +2,7 @@ import { Response } from "express";
 import { JobService, jobService } from "../service/job.service";
 import { JobDTO } from "./dto/job.dto";
 import { JobEditDTO } from "./dto/job-edit.dto";
-import { jobDTOtoJobResponseDTO } from "../entity/job.entity";
+import { jobDTOtoJobResponseDTO } from "./dto/job-response.dto";
 
 class JobController {
   constructor(private readonly jobService: JobService) {}

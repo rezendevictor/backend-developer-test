@@ -21,6 +21,7 @@
     "express-joi-validation": "^5.0.1",
     "multer": "^1.4.5-lts.1",
     "multer-s3": "^3.0.1",
+    "node-cache": "^5.1.2",
     "pg": "^8.11.3",
     "sentry": "^0.1.2",
     "serverless": "^3.38.0",
