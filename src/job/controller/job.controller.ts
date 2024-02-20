@@ -25,6 +25,7 @@ class JobController {
   public async deleteJobDraft(id: string, res: Response<void>): Promise<void> {
     await this.jobService.deleteJobDraft(id);
     res.status(200);
+    res.json();
   }
 
   async putArchiveJobPosting(id: string, res: Response): Promise<void> {
