@@ -1,4 +1,5 @@
 import {companyRepository, CompanyRepository} from '../repository/company.repository';
+import {CompanyNotFoundError} from '../error/company-not-found.error';
 
 export class CompanyService {
     constructor(
@@ -11,7 +12,10 @@ export class CompanyService {
     }
 
     public async getCompanyById(id: string): Promise<any> {
-        return this.companyRepository.getCompanyById(id);
+        const company = this.companyRepository.getCompanyById(id);
+        if(!company){
+            throw new CompanyNotFoundError("Company not Found");
+        }
     }
 }
 

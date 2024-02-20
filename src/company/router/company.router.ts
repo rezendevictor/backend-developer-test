@@ -4,6 +4,7 @@ import {companyController} from '../controller/company.controller';
 import {GetCompanyByIdSchema, getCompanySchema} from '../schema/get-company-by-id.schema';
 import {validator} from '../../core/express-validation';
 import {CompanyListResponseDTO, CompanyResponseDTO} from '../controller/dto/company-response.dto';
+import {companyErrorHandler} from '../error/company-error.handler';
 
 const companyRouter: Router = express.Router();
 
@@ -39,6 +40,8 @@ companyRouter.get(
 
     },
 );
+
+companyRouter.use(companyErrorHandler);
 
 export {companyRouter};
 

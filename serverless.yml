@@ -6,6 +6,8 @@ plugins:
   - serverless-offline
   - serverless-express
   - serverless-webpack
+  - serverless-dotenv-plugin
+
 
 
 provider:
