@@ -4,6 +4,7 @@
   "description": "## Welcome!",
   "main": "src/index.ts",
   "scripts": {
+    "docker": "docker compose up -d",
     "build": "sls webpack",
     "start": "sls offline --stage local",
     "test": "jest --maxWorkers=2"
